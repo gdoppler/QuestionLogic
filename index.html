@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="QuestionSet.js"></script>
+        <style>
+            .qgroup{
+                display: block;
+                min-width: 300px; 
+                min-height: 100px;
+                border-width: 1px;
+                border-color: black;
+                border-style: solid; 
+            }
+        </style>
+    </head>
+    <body>
+        <h1>QuestionSet Test</h1>
+        <div id="SetDisplay" style="vertical-align: top;">#8A307F, Blues #79A7D3 #6883BC
+            <div class="qgroup" style="background-color: lightblue;">Full weight: <div id="fullWeightDiv" title="FullWeight"></div></div>
+            <div class="qgroup" style="background-color: aqua;">Reduced weight: <div id="reducedWeightDiv" title="ReducedWeight"></div></div>
+            <div class="qgroup" style="background-color: mediumblue;">Zero weight: <div id="zeroWeightDiv" title="ZeroWeight"></div></div>
+        </div>
+        <hr/>
+        <input type="button" onclick="bclick()" value="next"/>
+        <hr/>
+        <div class="qgroup" id="Log">Log</div>
+        <script>
+            var qt=new QuestionSetTester(); 
+
+            function updateDisplay(){
+                var groups=['fullWeight','reducedWeight','zeroWeight']; 
+                for(var x=0; x<groups.length; x++){
+                    var div=document.getElementById(groups[x]+"Div"); 
+                    var groupname=groups[x]+"QuestionGroups"; 
+                    var groupdisplay=qt.questionset.simpleDisplay(groupname); 
+                    div.innerHTML=groupdisplay.join("<br/>"); 
+                }
+                
+            }
+            updateDisplay(); 
+
+            function bclick(){
+                var q=qt.questionset.getNextQuestion(); 
+                var correct=Math.random()<0.2; 
+                var log=document.getElementById("Log"); 
+                log.innerHTML+="<br/>"+q.simpleDisplay()+" -> "+(correct?"correct":"wrong"); 
+                qt.questionset.questionAnswered(q,correct); 
+                updateDisplay(); 
+            }
+        
+            
+
+        </script>
+    </body>
+</html>
